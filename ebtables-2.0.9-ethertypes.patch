@@ -1,0 +1,28 @@
+diff -up ebtables-v2.0.9-1/Makefile.ethertypes ebtables-v2.0.9-1/Makefile
+--- ebtables-v2.0.9-1/Makefile.ethertypes	2010-05-27 15:48:25.000000000 +0200
++++ ebtables-v2.0.9-1/Makefile	2010-05-27 17:09:06.000000000 +0200
+@@ -167,10 +167,6 @@ $(MANDIR)/man8/ebtables.8: ebtables.8
+ 	install -m 0644 ebtables.8_ $(DESTDIR)$@
+ 	rm -f ebtables.8_
+ 
+-$(ETHERTYPESFILE): ethertypes
+-	mkdir -p $(DESTDIR)$(@D)
+-	install -m 0644 $< $(DESTDIR)$@
+-
+ .PHONY: exec
+ exec: ebtables ebtables-restore
+ 	mkdir -p $(DESTDIR)$(BINDIR)
+@@ -178,10 +174,12 @@ exec: ebtables ebtables-restore
+ 	install -m 0755 ebtables-restore $(DESTDIR)$(BINDIR)/ebtables-restore
+ 
+ .PHONY: install
+-install: $(MANDIR)/man8/ebtables.8 $(ETHERTYPESFILE) exec scripts
++install: $(MANDIR)/man8/ebtables.8 ethertypes exec scripts
+ 	mkdir -p $(DESTDIR)$(LIBDIR)
+ 	install -m 0755 extensions/*.so $(DESTDIR)$(LIBDIR)
+ 	install -m 0755 *.so $(DESTDIR)$(LIBDIR)
++	mkdir -p $(DESTDIR)$(ETHERTYPESPATH)
++	install -m 0644 ethertypes $(DESTDIR)$(ETHERTYPESFILE)
+ 
+ .PHONY: clean
+ clean:
